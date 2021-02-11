@@ -11,10 +11,13 @@ const radii = {
   large: '2px',
 };
 
+const borders = ['none', `1px solid ${colors.border}`];
+
 export const defaultTheme: Theme = {
   space: {
     ...space,
   },
+  borders,
   breakpoints,
   colors: {
     ...colors,

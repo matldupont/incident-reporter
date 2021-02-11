@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Box } from './box';
+import { Box, BoxProps } from './box';
 
-const Stack: React.FC = ({ children, ...rest }) => {
+const Stack: React.FC<BoxProps> = ({ children, ...rest }) => {
   return (
     <Box flexDirection="column" {...rest}>
       {children}

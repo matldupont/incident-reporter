@@ -9,7 +9,7 @@ type VehicleProps = {
 export const Vehicle: React.FC<VehicleProps> = ({ vehicle }) => {
   if (!vehicle) return null;
   return (
-    <Stack>
+    <Stack border={1}>
       <Text>{vehicle.vin}</Text>
       <Text>{`${vehicle.year} ${vehicle.make} ${vehicle.model}`}</Text>
     </Stack>
