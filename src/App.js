@@ -1,16 +1,16 @@
+import * as React from 'react';
 import { GlobalStyle } from './styles/global';
-
-import { Header } from './components/header';
+import { Header, Main } from './components/layout';
 
 function App() {
   return (
     <div>
       <GlobalStyle />
       <Header />
-      <main>
+      <Main>
         <button>New Incident</button>
         <div>List goes here</div>
-      </main>
+      </Main>
     </div>
   );
 }

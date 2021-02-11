@@ -77,6 +77,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    background: #FAFDFF;
     font-size: 1.6rem;
     box-sizing: border-box;
     font-family: 'Galano Grotesque';
