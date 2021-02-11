@@ -3,7 +3,7 @@ import { useMachine } from '@xstate/react';
 import { incidentsMachine } from './incidents.machine';
 
 type IncidentsContextType = {
-  incidents?: Incident[];
+  incidentData?: IncidentData;
   incidentsError: string | null;
   hasIncidentsError: boolean;
   isIncidentsLoading: boolean;
@@ -11,7 +11,7 @@ type IncidentsContextType = {
 };
 
 const defaultContext: IncidentsContextType = {
-  incidents: [],
+  incidentData: {},
   incidentsError: null,
   hasIncidentsError: false,
   isIncidentsLoading: false,
@@ -32,7 +32,7 @@ const IncidentsProvider: React.FC<React.ReactPropTypes> = (props) => {
   const hasIncidentsError = currentIncidentsState.matches('failure');
   const isIncidentsLoading = currentIncidentsState.matches('loading');
   const isIncidentsSuccessful = currentIncidentsState.matches('success');
-  const { incidents } = currentIncidentsState.context;
+  const { incidentData } = currentIncidentsState.context;
   const incidentsError = currentIncidentsState.context?.error?.message;
 
   React.useEffect(() => {
@@ -42,13 +42,13 @@ const IncidentsProvider: React.FC<React.ReactPropTypes> = (props) => {
   const value: IncidentsContextType = React.useMemo(
     () =>
       ({
-        incidents,
+        incidentData,
         incidentsError,
         hasIncidentsError,
         isIncidentsLoading,
         isIncidentsSuccessful,
       } as IncidentsContextType),
-    [incidents, incidentsError, hasIncidentsError, isIncidentsLoading, isIncidentsSuccessful]
+    [incidentData, incidentsError, hasIncidentsError, isIncidentsLoading, isIncidentsSuccessful]
   );
 
   return <IncidentsContext.Provider value={value} {...props} />;

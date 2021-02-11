@@ -1,42 +1,38 @@
 import { Machine, assign } from 'xstate';
 
-const defaultIncidents = [
-  {
+const defaultData: IncidentData = {
+  '2C3AA63H75H632197': {
     vin: '2C3AA63H75H632197',
-    dateTime: new Date(),
-    note: 'Hit a post',
     make: 'Nissan',
     model: 'Rogue',
     year: 2019,
+    incidents: [{ note: 'Hit a post', dateTime: new Date() }],
   },
-  {
+  '94MAA63H75H632197': {
     vin: '94MAA63H75H632197',
-    dateTime: new Date(),
-    note: 'Cyclist was riding around and hit the back bumper.  what a turd.',
     make: 'Tesla',
     model: 'Model S',
     year: 2020,
+    incidents: [{ dateTime: new Date(), note: 'Cyclist was riding around and hit the back bumper.  what a turd.' }],
   },
-  {
+  '2C3AA63H89E632197': {
     vin: '2C3AA63H89E632197',
-    dateTime: new Date(),
-    note: 'Hit a post',
     make: 'Toyota',
     model: 'RAV4',
     year: 2017,
+    incidents: [{ dateTime: new Date(), note: 'Hit a post' }],
   },
-  {
+  '2C3AA63H75H637849': {
     vin: '2C3AA63H75H637849',
-    dateTime: new Date(),
-    note: 'Broken window',
     make: 'Mazda',
     model: '6',
     year: 2019,
+    incidents: [{ dateTime: new Date(), note: 'Broken window' }],
   },
-];
+};
 
 interface IncidentsContext {
-  incidents: Incident[];
+  incidentData: IncidentData;
   retries: number;
   error: {
     message: string;
@@ -79,7 +75,7 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
     initial: 'idle',
     context: {
       retries: 0,
-      incidents: defaultIncidents,
+      incidentData: defaultData,
       error: null,
     },
     states: {

@@ -1,8 +1,14 @@
-type Incident = {
+type VehicleData = {
   vin: string;
-  dateTime: Date;
-  note: string;
   make: string;
   model: string;
   year: number;
-} | null;
+  incidents: VehicleIncidentData[];
+};
+
+type VehicleIncidentData = {
+  dateTime: Date;
+  note: string;
+};
+
+type IncidentData = Record<string, VehicleData>;

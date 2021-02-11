@@ -1,13 +1,21 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import logo from '../assets/svg/trov_logo_blue.svg';
+import trovLogo from '../assets/svg/trov_logo_blue.svg';
+import trovIcon from '../assets/svg/trov_icon_blue.svg';
 import { Text } from './text';
 import { Box } from './box';
+import { display } from 'styled-system';
 
 const headerHeight = 6;
 
 const LogoImg = styled.img`
   height: 4rem;
+  ${display}
+`;
+
+const IconImg = styled.img`
+  height: 3rem;
+  ${display}
 `;
 
 const Header: React.FC = () => {
@@ -21,8 +29,10 @@ const Header: React.FC = () => {
       top="0"
       bg="white"
       boxShadow="0px 6px 8px 4px rgba(27, 155, 252, 0.06)"
+      px={3}
     >
-      <LogoImg src={logo} alt="logo" />
+      <LogoImg display={['none', 'none', 'block']} src={trovLogo} alt="trov" />
+      <IconImg display={['block', 'block', 'none']} src={trovIcon} alt="trov" />
       <Text ml={3} fontWeight="bold" fontSize={[3]}>
         Incident Reporter
       </Text>

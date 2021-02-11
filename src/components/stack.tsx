@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Box } from './box';
 
-const Stack = React.forwardRef<HTMLDivElement>(({ children, ...rest }, ref) => {
+const Stack: React.FC = ({ children, ...rest }) => {
   return (
-    <Box ref={ref} flexDirection="column" {...rest}>
+    <Box flexDirection="column" {...rest}>
       {children}
     </Box>
   );
-});
+};
 
 Stack.displayName = 'Stack';
 
