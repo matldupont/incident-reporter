@@ -1,12 +1,12 @@
-import logo from './assets/trov_logo_blue.svg';
-// import './App.css';
+import { GlobalStyle } from './styles/global';
+
+import { Header } from './components/header';
 
 function App() {
   return (
     <div>
-      <header>
-        <img src={logo} alt="logo" />
-      </header>
+      <GlobalStyle />
+      <Header />
       <main>
         <button>New Incident</button>
         <div>List goes here</div>
