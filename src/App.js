@@ -1,18 +1,22 @@
 import * as React from 'react';
 import { GlobalStyle } from './styles/global';
+import { TrovThemeProvider } from './styles/theme-provider';
 import { Header, Main } from './components/layout';
+import { IncidentsProvider } from './state/incident-provider';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div>
+    <TrovThemeProvider>
       <GlobalStyle />
       <Header />
       <Main>
-        <button>New Incident</button>
-        <div>List goes here</div>
+        <IncidentsProvider>
+          <button>New Incident</button>
+          <div>List goes here</div>
+        </IncidentsProvider>
       </Main>
-    </div>
+    </TrovThemeProvider>
   );
-}
+};
 
 export default App;

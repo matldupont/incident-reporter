@@ -16,6 +16,15 @@ const GlobalStyle = createGlobalStyle`
   ${styledNormalize}
   ${reset}
 
+  @font-face {
+    font-family: 'Galano Grotesque';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: local('Galano Grotesque'), local('GalanoGrotesque'),
+    url(${GalanoLightWoff2}) format("woff2"), 
+    url(${GalanoLightWoff}) format("woff")
+  }
 
   @font-face {
     font-family: 'Galano Grotesque';
@@ -25,16 +34,6 @@ const GlobalStyle = createGlobalStyle`
     src: local('Galano Grotesque'), local('GalanoGrotesque'),
     url(${GalanoRegularWoff2}) format("woff2"),
     url(${GalanoRegularWoff}) format("woff")
-  }
-
-  @font-face {
-    font-family: 'Galano Grotesque';
-    font-style: normal;
-    font-weight: 200;
-    font-display: swap;
-    src: local('Galano Grotesque'), local('GalanoGrotesque'),
-    url(${GalanoLightWoff2}) format("woff2"), 
-    url(${GalanoLightWoff}) format("woff")
   }
 
   @font-face {
@@ -80,7 +79,7 @@ const GlobalStyle = createGlobalStyle`
     background: #FAFDFF;
     font-size: 1.6rem;
     box-sizing: border-box;
-    font-family: 'Galano Grotesque';
+    font-family: 'Galano Grotesque', sans-serif;
   }
 `;
 
