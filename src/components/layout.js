@@ -6,7 +6,7 @@ import plusIcon from '../assets/svg/plus.svg';
 import { Text } from './text';
 import { Box } from './box';
 import { display } from 'styled-system';
-import { Button } from './button';
+import { Link } from 'react-router-dom';
 
 const headerHeight = 6;
 
@@ -25,7 +25,7 @@ const PlusImg = styled.img`
   height: 3rem;
 `;
 
-const AddButton = styled.button`
+const AddLink = styled(Link)`
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -33,6 +33,8 @@ const AddButton = styled.button`
   background: none;
   border: none;
 `;
+
+const HomeLink = styled(Link)``;
 
 const Header: React.FC = () => {
   return (
@@ -47,14 +49,16 @@ const Header: React.FC = () => {
       boxShadow="0px 6px 8px 4px rgba(27, 155, 252, 0.06)"
       px={3}
     >
-      <LogoImg display={['none', 'none', 'block']} src={trovLogo} alt="trov" />
-      <IconImg display={['block', 'block', 'none']} src={trovIcon} alt="trov" />
+      <HomeLink to="/" aria-label="Back to the Incident List">
+        <LogoImg display={['none', 'none', 'block']} src={trovLogo} alt="trov" />
+        <IconImg display={['block', 'block', 'none']} src={trovIcon} alt="trov" />
+      </HomeLink>
       <Text flex="1" ml={3} fontWeight="bold" fontSize={[3]}>
         Incident Reporter
       </Text>
-      <AddButton onClick={() => console.log('HEY')}>
+      <AddLink to="/report" aria-label="Report an Incident">
         <PlusImg src={plusIcon} alt="trov" />
-      </AddButton>
+      </AddLink>
     </Box>
   );
 };
