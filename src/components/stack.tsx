@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Box, BoxProps } from './box';
+import type {} from 'styled-components/cssprop';
 
 const Stack: React.FC<BoxProps> = ({ children, ...rest }) => {
   return (

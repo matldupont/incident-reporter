@@ -6,7 +6,11 @@ const defaultData: IncidentData = {
     make: 'Nissan',
     model: 'Rogue',
     year: 2019,
-    incidents: [{ note: 'Hit a post', dateTime: new Date() }],
+    incidents: [
+      { note: 'Hit a post', dateTime: new Date() },
+      { note: 'Hit a post', dateTime: new Date() },
+      { note: 'Hit a post', dateTime: new Date() },
+    ],
   },
   '94MAA63H75H632197': {
     vin: '94MAA63H75H632197',

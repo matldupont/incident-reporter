@@ -5,13 +5,9 @@ import { fontSizes, fontWeights } from './fonts';
 
 const breakpoints: string[] = ['319px', '424px', '767px', '1023px'];
 
-const radii = {
-  none: 0,
-  small: '1px',
-  large: '2px',
-};
+const radii = [0, '6px'];
 
-const borders = ['none', `1px solid ${colors.border}`];
+const borders = ['none', `1px solid ${colors.border}`, `2px solid ${colors.border}`];
 
 export const defaultTheme: Theme = {
   space: {

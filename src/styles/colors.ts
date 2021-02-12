@@ -6,6 +6,7 @@ export interface ThemeColors {
   border: CSS.Property.Color;
   background: CSS.Property.Color;
   white: CSS.Property.Color;
+  grey: CSS.Property.Color;
 }
 
 export const colors: ThemeColors = {
@@ -14,4 +15,5 @@ export const colors: ThemeColors = {
   border: '#E5E8E9',
   background: '#FAFDFF',
   white: '#FFFFFF',
+  grey: '#F5F5F5',
 };

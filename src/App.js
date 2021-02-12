@@ -12,7 +12,6 @@ const App: React.FC = () => {
       <Header />
       <Main>
         <IncidentsProvider>
-          <button>New Incident</button>
           <VehicleList />
         </IncidentsProvider>
       </Main>
