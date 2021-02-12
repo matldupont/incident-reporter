@@ -7,7 +7,13 @@ const breakpoints: string[] = ['319px', '424px', '767px', '1023px'];
 
 const radii = [0, '6px'];
 
-const borders = ['none', `1px solid ${colors.border}`, `2px solid ${colors.border}`];
+const borders = [
+  'none',
+  `1px solid ${colors.border}`,
+  `2px solid ${colors.border}`,
+  `1px solid ${colors.darkGrey}`,
+  `1px solid ${colors.red}`,
+];
 
 export const defaultTheme: Theme = {
   space: {

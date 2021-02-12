@@ -16,9 +16,29 @@ type ButtonProps = {
 const StyledButton = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
+  transition: all 0.3s;
+
+  ${({ theme: { colors, radii, space, fontSizes } }) => ({
+    background: colors.blue,
+    borderRadius: radii[1],
+    paddingTop: space[3],
+    paddingBottom: space[3],
+    paddingLeft: space[4],
+    paddingRight: space[4],
+    fontSize: fontSizes[2],
+    color: colors.white,
+  })}
+  border: none;
+
+  &:focus {
+    border-color: transparent;
+    outline: ${({ theme }) => theme.colors.focus};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.focus};
+  }
 
   &:hover {
     cursor: pointer;
+    background: ${({ theme }) => theme.colors.hoverBlue};
   }
 
   ${space}
@@ -29,8 +49,10 @@ const StyledButton = styled.button<ButtonProps>`
 
 export const Button: React.FC<ButtonProps> = ({ id, onClick, children, ariaLabel, title, ...rest }) => {
   const handleButtonClick = (event: Event) => {
-    event.preventDefault();
-    onClick();
+    if (onClick) {
+      event.preventDefault();
+      onClick();
+    }
   };
 
   return (

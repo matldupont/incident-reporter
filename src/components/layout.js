@@ -7,6 +7,7 @@ import { Text } from './text';
 import { Box } from './box';
 import { display } from 'styled-system';
 import { Link } from 'react-router-dom';
+import { Stack } from './stack';
 
 const headerHeight = 6;
 
@@ -36,7 +37,7 @@ const AddLink = styled(Link)`
 
 const HomeLink = styled(Link)``;
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   return (
     <Box
       as="header"
@@ -63,14 +64,32 @@ const Header: React.FC = () => {
   );
 };
 
-const Main = styled.main`
-  margin-top: ${headerHeight + 2}rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
-  height: calc(100% - 8rem);
-`;
+// const Main = styled.main`
+//   margin-top: ${headerHeight + 2}rem;
+//   width: 100vw;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   position: absolute;
+//   bottom: 0;
+//   height: calc(100% - 8rem);
+// `;
 
-export { Header, Main };
+export const Main: React.FC = ({ children }) => {
+  return (
+    <Stack
+      bg="lightBlue"
+      width="100vw"
+      alignItems="center"
+      as="main"
+      position="absolute"
+      bottom="0"
+      height="calc(100% - 7rem)"
+      overflow="scroll"
+    >
+      <Stack width="100vw" maxWidth={['100vw', '60rem']} position="absolute" bottom="0" height="100%">
+        {children}
+      </Stack>
+    </Stack>
+  );
+};

@@ -25,6 +25,8 @@ const textTransform = system({
 
 interface As {
   as?: React.ElementType;
+  htmlFor?: string;
+  textTransform?: string;
 }
 
 export type TextProps = React.RefAttributes<HTMLElement> &
