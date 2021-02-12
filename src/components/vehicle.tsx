@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { css } from 'styled-components';
 import { Stack } from './stack';
 import { Text } from './text';
 import { Box } from './box';
