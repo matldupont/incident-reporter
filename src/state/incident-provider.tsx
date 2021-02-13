@@ -5,17 +5,23 @@ import { incidentsMachine } from './incidents.machine';
 type IncidentsContextType = {
   incidentData?: IncidentData;
   incidentsError: string | null;
-  hasIncidentsError: boolean;
-  isIncidentsLoading: boolean;
-  isIncidentsSuccessful: boolean;
+  hasGetIncidentsError: boolean;
+  isGettingIncidents: boolean;
+  isGetIncidentsSuccessful: boolean;
+  hasAddIncidentError: boolean;
+  isAddingIncident: boolean;
+  isAddIncidentSuccessful: boolean;
 };
 
 const defaultContext: IncidentsContextType = {
   incidentData: {},
   incidentsError: null,
-  hasIncidentsError: false,
-  isIncidentsLoading: false,
-  isIncidentsSuccessful: false,
+  hasGetIncidentsError: false,
+  isGettingIncidents: false,
+  isGetIncidentsSuccessful: false,
+  hasAddIncidentError: false,
+  isAddingIncident: false,
+  isAddIncidentSuccessful: false,
 };
 
 const IncidentsContext = React.createContext<IncidentsContextType>(defaultContext);
@@ -29,11 +35,14 @@ const IncidentsProvider: React.FC<React.ReactPropTypes> = (props) => {
     sendIncidentsEvent('GET');
   };
 
-  const hasIncidentsError = currentIncidentsState.matches('failure');
-  const isIncidentsLoading = currentIncidentsState.matches('loading');
-  const isIncidentsSuccessful = currentIncidentsState.matches('success');
+  const hasGetIncidentsError = currentIncidentsState.matches('failure_getting');
+  const isGettingIncidents = currentIncidentsState.matches('getting');
+  const isGetIncidentsSuccessful = currentIncidentsState.matches('success_getting');
   const { incidentData } = currentIncidentsState.context;
   const incidentsError = currentIncidentsState.context?.error?.message;
+  const hasAddIncidentError = currentIncidentsState.matches('failure_adding');
+  const isAddingIncident = currentIncidentsState.matches('adding');
+  const isAddIncidentSuccessful = currentIncidentsState.matches('success_adding');
 
   React.useEffect(() => {
     getIncidents();
@@ -44,11 +53,23 @@ const IncidentsProvider: React.FC<React.ReactPropTypes> = (props) => {
       ({
         incidentData,
         incidentsError,
-        hasIncidentsError,
-        isIncidentsLoading,
-        isIncidentsSuccessful,
+        hasGetIncidentsError,
+        isGettingIncidents,
+        isGetIncidentsSuccessful,
+        hasAddIncidentError,
+        isAddingIncident,
+        isAddIncidentSuccessful,
       } as IncidentsContextType),
-    [incidentData, incidentsError, hasIncidentsError, isIncidentsLoading, isIncidentsSuccessful]
+    [
+      incidentData,
+      incidentsError,
+      hasGetIncidentsError,
+      isGettingIncidents,
+      isGetIncidentsSuccessful,
+      hasAddIncidentError,
+      isAddingIncident,
+      isAddIncidentSuccessful,
+    ]
   );
 
   return <IncidentsContext.Provider value={value} {...props} />;

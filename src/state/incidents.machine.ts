@@ -37,7 +37,6 @@ const defaultData: IncidentData = {
 
 interface IncidentsContext {
   incidentData: IncidentData;
-  retries: number;
   error: {
     message: string;
   } | null;
@@ -78,14 +77,13 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
     id: 'incidents-machine',
     initial: 'idle',
     context: {
-      retries: 0,
       incidentData: defaultData,
       error: null,
     },
     states: {
       idle: {
         on: {
-          GET: 'loading',
+          GET: 'getting',
           ADD: 'adding',
         },
       },
@@ -168,9 +166,6 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
       onSuccess: () => {
         // Placeholder - overridden when used by component
       },
-    },
-    guards: {
-      maxRetriesReached: (ctx: IncidentsContext) => ctx.retries >= 2,
     },
   }
 );
