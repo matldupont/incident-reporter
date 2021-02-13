@@ -48,28 +48,28 @@ const getIncidents = async () => {
   // return get(`${incidentsEndpoint}`);
 };
 
+const addIncident = async () => {
+  // return post(`${incidentEndpoint})
+};
+
 export enum IncidentEventTypes {
   GET,
-  RETRY,
+  ADD,
 }
 
-type IncidentsEvent = { type: 'GET' } | { type: 'RETRY' };
-
-// EVENTS
-const events = {
-  GET: 'get',
-  RETRY: 'retry',
-};
+type IncidentsEvent = { type: 'GET' } | { type: 'GET_RETRY' } | { type: 'ADD' } | { type: 'ADD_RETRY' };
 
 // SUBSCRIPTIONS MACHINE
 
 interface IncidentsStateSchema {
   states: {
     idle: Record<string, unknown>;
-    loading: Record<string, unknown>;
-    success: Record<string, unknown>;
-    failure: Record<string, unknown>;
-    maxRetries: Record<string, unknown>;
+    getting: Record<string, unknown>;
+    success_getting: Record<string, unknown>;
+    failure_getting: Record<string, unknown>;
+    adding: Record<string, unknown>;
+    success_adding: Record<string, unknown>;
+    failure_adding: Record<string, unknown>;
   };
 }
 
@@ -85,53 +85,60 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
     states: {
       idle: {
         on: {
-          [events.GET]: 'loading',
+          GET: 'loading',
+          ADD: 'adding',
         },
       },
-      loading: {
+      getting: {
         invoke: {
-          id: 'get-subscriptions',
-          src: 'getSubscriptions',
+          id: 'get-incidents',
+          src: 'getIncidents',
           onDone: {
-            target: 'success',
-            actions: ['cacheSubscriptions', 'onSuccess'],
+            target: 'success_getting',
+            actions: ['cacheIncidents', 'onSuccess'],
           },
           onError: {
-            target: 'failure',
+            target: 'failure_getting',
             actions: 'cacheError',
           },
         },
       },
-      success: {
+      success_getting: {
         after: {
           500: {
             target: 'idle',
           },
         },
       },
-      failure: {
+      failure_getting: {
         on: {
-          [events.RETRY]: [
-            {
-              cond: 'maxRetriesReached',
-              target: 'maxRetries',
-            },
-            {
-              target: 'loading',
-              actions: assign<IncidentsContext, IncidentsEvent>({
-                retries: (context) => {
-                  return context.retries + 1;
-                },
-              }),
-            },
-          ],
+          GET: 'getting',
         },
       },
-      maxRetries: {
+      adding: {
+        invoke: {
+          id: 'add-incident',
+          src: 'addIncident',
+          onDone: {
+            target: 'success_adding',
+            actions: ['cacheSubscriptions', 'onSuccess'],
+          },
+          onError: {
+            target: 'failure_adding',
+            actions: 'cacheError',
+          },
+        },
+      },
+      success_adding: {
         after: {
           500: {
             target: 'idle',
           },
+        },
+      },
+      failure_adding: {
+        on: {
+          GET: 'adding',
         },
       },
     },
@@ -139,6 +146,7 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
   {
     services: {
       getIncidents,
+      addIncident,
     },
     actions: {
       // cacheError: assign({
