@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useIncidentsService } from '../state/incident-provider';
 import { Stack } from './stack';
 import { Vehicle } from './vehicle';
-import { ReportLink } from './report-link';
+// import { ReportLink } from './report-link';
 import { Box } from './box';
 import { Text } from './text';
 import { Skeleton } from './skeleton';
