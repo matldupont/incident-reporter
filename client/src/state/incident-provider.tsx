@@ -32,7 +32,11 @@ const IncidentsProvider: React.FC<React.ReactPropTypes> = (props) => {
   const [currentIncidentsState, sendIncidentsEvent] = useMachine(incidentsMachine);
 
   const getIncidents = () => {
-    sendIncidentsEvent('GET');
+    sendIncidentsEvent({ type: 'GET' });
+  };
+
+  const addIncident = (payload: VehicleIncidentData) => {
+    sendIncidentsEvent({ type: 'ADD', payload });
   };
 
   const hasGetIncidentsError = currentIncidentsState.matches('failure_getting');
@@ -51,6 +55,7 @@ const IncidentsProvider: React.FC<React.ReactPropTypes> = (props) => {
   const value: IncidentsContextType = React.useMemo(
     () =>
       ({
+        addIncident,
         incidentData,
         incidentsError,
         hasGetIncidentsError,
@@ -61,6 +66,7 @@ const IncidentsProvider: React.FC<React.ReactPropTypes> = (props) => {
         isAddIncidentSuccessful,
       } as IncidentsContextType),
     [
+      addIncident,
       incidentData,
       incidentsError,
       hasGetIncidentsError,

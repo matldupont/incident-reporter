@@ -1,39 +1,5 @@
 import { Machine, assign } from 'xstate';
-
-const defaultData: IncidentData = {
-  '2C3AA63H75H632197': {
-    vin: '2C3AA63H75H632197',
-    make: 'Nissan',
-    model: 'Rogue',
-    year: 2019,
-    incidents: [
-      { note: 'Hit a post', dateTime: new Date() },
-      { note: 'Hit a post', dateTime: new Date() },
-      { note: 'Hit a post', dateTime: new Date() },
-    ],
-  },
-  '94MAA63H75H632197': {
-    vin: '94MAA63H75H632197',
-    make: 'Tesla',
-    model: 'Model S',
-    year: 2020,
-    incidents: [{ dateTime: new Date(), note: 'Cyclist was riding around and hit the back bumper.  what a turd.' }],
-  },
-  '2C3AA63H89E632197': {
-    vin: '2C3AA63H89E632197',
-    make: 'Toyota',
-    model: 'RAV4',
-    year: 2017,
-    incidents: [{ dateTime: new Date(), note: 'Hit a post' }],
-  },
-  '2C3AA63H75H637849': {
-    vin: '2C3AA63H75H637849',
-    make: 'Mazda',
-    model: '6',
-    year: 2019,
-    incidents: [{ dateTime: new Date(), note: 'Broken window' }],
-  },
-};
+import incidentsAPI from '../api/incidents';
 
 interface IncidentsContext {
   incidentData: IncidentData;
@@ -44,19 +10,16 @@ interface IncidentsContext {
 
 // SERVICES
 const getIncidents = async () => {
-  // return get(`${incidentsEndpoint}`);
+  return incidentsAPI.get('/incidents');
 };
 
-const addIncident = async () => {
-  // return post(`${incidentEndpoint})
+const addIncident = async (ctx: IncidentsContext, evt: IncidentsEvent) => {
+  return incidentsAPI.post('/incidents', evt.payload);
 };
 
-export enum IncidentEventTypes {
-  GET,
-  ADD,
-}
-
-type IncidentsEvent = { type: 'GET' } | { type: 'GET_RETRY' } | { type: 'ADD' } | { type: 'ADD_RETRY' };
+type IncidentsEvent =
+  | { type: 'GET'; data: { data: Record<string, VehicleData>; response: { data: { message: string } } }; payload: VehicleIncidentData }
+  | { type: 'ADD'; data: { data: Record<string, VehicleData>; response: { data: { message: string } } }; payload: VehicleIncidentData };
 
 // SUBSCRIPTIONS MACHINE
 
@@ -77,7 +40,7 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
     id: 'incidents-machine',
     initial: 'idle',
     context: {
-      incidentData: defaultData,
+      incidentData: {},
       error: null,
     },
     states: {
@@ -119,7 +82,7 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
           src: 'addIncident',
           onDone: {
             target: 'success_adding',
-            actions: ['cacheSubscriptions', 'onSuccess'],
+            actions: ['cacheIncidents', 'onSuccess'],
           },
           onError: {
             target: 'failure_adding',
@@ -129,14 +92,15 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
       },
       success_adding: {
         after: {
-          500: {
+          4000: {
             target: 'idle',
           },
         },
+        on: { ADD: 'adding' },
       },
       failure_adding: {
         on: {
-          GET: 'adding',
+          ADD: 'adding',
         },
       },
     },
@@ -147,21 +111,21 @@ export const incidentsMachine = Machine<IncidentsContext, IncidentsStateSchema, 
       addIncident,
     },
     actions: {
-      // cacheError: assign({
-      //   error: (ctx, evt) => {
-      //     const error = evt?.data?.response?.data || evt?.data;
+      cacheError: assign({
+        error: (ctx, evt) => {
+          const error = evt?.data?.response?.data || evt?.data;
 
-      //     const message = error?.message || 'There was an error with the request';
+          const message = error?.message || 'There was an error with the request';
 
-      //     return {
-      //       message,
-      //     };
-      //   },
-      // }),
+          return {
+            message,
+          };
+        },
+      }),
       cacheIncidents: assign({
-        // incidents: (ctx, evt) => {
-        //   return evt?.data?.data?.subscriptions;
-        // },
+        incidentData: (ctx, evt) => {
+          return evt?.data?.data;
+        },
       }),
       onSuccess: () => {
         // Placeholder - overridden when used by component

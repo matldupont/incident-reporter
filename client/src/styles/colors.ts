@@ -9,7 +9,11 @@ export interface ThemeColors {
   white: CSS.Property.Color;
   grey: CSS.Property.Color;
   darkGrey: CSS.Property.Color;
+  lightGrey: CSS.Property.Color;
   red: CSS.Property.Color;
+  lightRed: CSS.Property.Color;
+  green: CSS.Property.Color;
+  lightGreen: CSS.Property.Color;
   focus: CSS.Property.Color;
 }
 
@@ -22,6 +26,10 @@ export const colors: ThemeColors = {
   white: '#FFFFFF',
   grey: '#F5F5F5',
   darkGrey: '#929EA2',
+  lightGrey: '#e7e7e7',
   red: '#dc1919',
+  lightRed: '#FFEEEE',
+  green: '#467963',
+  lightGreen: '#DBEDD6',
   focus: '#406198',
 };

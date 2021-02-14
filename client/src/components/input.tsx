@@ -3,6 +3,7 @@ import { Box } from './box';
 import { Text } from './text';
 import styled from 'styled-components';
 import { layout, LayoutProps, margin, MarginProps, flexbox, FlexboxProps } from 'styled-system';
+import { InputErrorMessage } from './input-error-message';
 
 type InputProps = {
   ariaLabel: string;
@@ -17,8 +18,8 @@ type InputProps = {
   label: string;
   onClick(): void;
   onBlur(): void;
-  onChange(): void;
-  onKeyPress(): void;
+  onChange(e: KeyboardEvent): void;
+  onKeyPress(e: KeyboardEvent): void;
   title?: string;
   rows: number;
   textarea: boolean;
@@ -85,56 +86,12 @@ export const InputContainer: React.FC<ContainerProps> = styled.div`
     &[aria-invalid='true'] {
       border: ${({ theme }) => theme.borders[4]};
       position: relative;
-
-      &::after,
-      &:hover::after {
-        content: '';
-        color: ${({ theme }) => theme.colors.red};
-        position: absolute;
-        right: 8px;
-        top: 8px;
-      }
     }
 
     &:focus {
-      border-color: transparent;
       outline: ${({ theme }) => theme.colors.focus};
       box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.focus};
     }
-  }
-`;
-
-interface ErrorMessageProps extends React.HTMLAttributes<HTMLDivElement> {
-  showErrorMessage: boolean;
-  id: string;
-}
-
-const InputErrorMessage = styled.div<ErrorMessageProps>`
-  font-size: 1.2rem;
-  color: ${({ theme }) => theme.colors.red};
-  opacity: 0;
-  text-transform: none;
-  transition: all 0.2s ease-in-out;
-  font-weight: 400;
-  flex-wrap: wrap;
-  height: auto;
-  margin-bottom: 0.4rem;
-  display: flex;
-  align-items: center;
-
-  ${({ showErrorMessage }) => {
-    return (
-      showErrorMessage &&
-      `
-
-      max-height: 1000px;
-      opacity: 1;
-    `
-    );
-  }}
-
-  &:empty {
-    height: 0px;
   }
 `;
 
@@ -180,7 +137,9 @@ const Input: React.FC<InputProps> = ({
   };
 
   const getTextArea = () => {
-    return <textarea disabled={disabled} id={id} onChange={onChange} required={required} rows={rows} value={value} />;
+    return (
+      <textarea aria-invalid={hasError} disabled={disabled} id={id} onChange={onChange} required={required} rows={rows} value={value} />
+    );
   };
 
   const getInputType = () => {
@@ -206,7 +165,9 @@ const Input: React.FC<InputProps> = ({
             {errorMessage}
           </InputErrorMessage>
         )}
-        <Box position="relative">{getInputType()}</Box>
+        <Box position="relative" mt={1}>
+          {getInputType()}
+        </Box>
       </Text>
     </InputContainer>
   );

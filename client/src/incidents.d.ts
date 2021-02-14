@@ -7,7 +7,8 @@ type VehicleData = {
 };
 
 type VehicleIncidentData = {
-  dateTime: Date;
+  vin: string;
+  date: string;
   note: string;
 };
 
