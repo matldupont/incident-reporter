@@ -18,14 +18,14 @@ export interface ThemeColors {
 }
 
 export const colors: ThemeColors = {
-  blue: '#0198FF',
+  blue: '#005C99',
   hoverBlue: '#34adff',
   lightBlue: '#F5FBFF',
   border: '#E5E8E9',
   background: '#FAFDFF',
   white: '#FFFFFF',
   grey: '#F5F5F5',
-  darkGrey: '#929EA2',
+  darkGrey: '#4B5658',
   lightGrey: '#e7e7e7',
   red: '#dc1919',
   lightRed: '#FFEEEE',

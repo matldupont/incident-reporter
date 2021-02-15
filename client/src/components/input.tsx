@@ -6,7 +6,6 @@ import { layout, LayoutProps, margin, MarginProps, flexbox, FlexboxProps } from 
 import { InputErrorMessage } from './input-error-message';
 
 type InputProps = {
-  ariaLabel: string;
   errorMessage: string;
   hasError: boolean;
   hint: string;
@@ -24,32 +23,6 @@ type InputProps = {
   rows: number;
   textarea: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>;
-
-// const defaultProps = {
-//   ariaLabel: '',
-//   autoComplete: 'on',
-//   disabled: false,
-//   errorMessage: '',
-//   hasError: false,
-//   hint: null,
-//   icon: '',
-//   isLoading: false,
-//   label: '',
-//   max: null,
-//   maxLength: null,
-//   min: null,
-//   name: '',
-//   onBlur: () => {},
-//   onChange: () => {},
-//   onKeyPress: () => {},
-//   required: false,
-//   rows: 5,
-//   suffix: '',
-//   systemProps: {},
-//   textarea: false,
-//   type: 'text',
-//   value: '',
-// };
 
 export type ContainerProps = React.RefAttributes<HTMLElement> &
   React.HTMLAttributes<HTMLElement> &
@@ -96,7 +69,6 @@ export const InputContainer: React.FC<ContainerProps> = styled.div`
 `;
 
 const Input: React.FC<InputProps> = ({
-  ariaLabel,
   errorMessage,
   hasError,
   hint,
@@ -120,7 +92,7 @@ const Input: React.FC<InputProps> = ({
     return (
       <input
         aria-invalid={hasError}
-        aria-label={ariaLabel}
+        aria-label={label}
         aria-required={required}
         id={id}
         max={max}
@@ -138,7 +110,16 @@ const Input: React.FC<InputProps> = ({
 
   const getTextArea = () => {
     return (
-      <textarea aria-invalid={hasError} disabled={disabled} id={id} onChange={onChange} required={required} rows={rows} value={value} />
+      <textarea
+        aria-invalid={hasError}
+        disabled={disabled}
+        id={id}
+        onChange={onChange}
+        required={required}
+        rows={rows}
+        value={value}
+        aria-label={label}
+      />
     );
   };
 

@@ -138,6 +138,9 @@ export const VehicleList: React.FC = () => {
 
   return (
     <Stack>
+      <Text as="h1" my={3} fontSize={4} fontWeight="bold" mx={2}>
+        Incidents
+      </Text>
       <Stack my="4" justifyContent={['flex-end', 'flex-end', 'flex-end', 'space-between']}>
         <Box mx={2} alignItems="stretch" justifyContent="space-between">
           <Stack width="100%" flexDirection={['column', 'column', 'column', 'row']} justifyContent="space-between">
