@@ -97,10 +97,16 @@ incidentRouter.post(
       await addNewIncident({ vin, date, note });
     } catch (e) {
       res.status(400).send({ message: e.message });
+      return;
     }
 
     res.send(incidentData);
   }
 );
+
+incidentRouter.delete('/incidents', (req, res) => {
+  incidentData = {};
+  res.send({});
+});
 
 export { incidentRouter };
