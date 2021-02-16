@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Box } from './box';
 import { Stack } from './stack';
 import { Input } from './input';
 import { Text } from './text';
-import DatePicker from 'react-datepicker';
 import { Button } from './button';
 // import axios from 'axios';
 import { useIncidentsService } from '../state/incident-provider';
 
-import 'react-datepicker/dist/react-datepicker.css';
 import Spinner from './spinner';
 import { InputErrorMessage } from './input-error-message';
+import { getInvalidFormFields } from '../utils/index';
 
 export const IncidentForm: React.FC = () => {
   const [formData, setFormData] = React.useState({
@@ -23,30 +24,13 @@ export const IncidentForm: React.FC = () => {
 
   const { addIncident, incidentsError, isAddingIncident, hasAddIncidentError, isAddIncidentSuccessful } = useIncidentsService();
 
-  const isFormDataValid = () => {
-    const { vin, date, note } = formData;
-    const fields = [];
-    if (vin.length !== 17) {
-      fields.push('vin');
-    }
-
-    if (date.getTime() > new Date().getTime()) {
-      fields.push('date');
-    }
-
-    if (note.length === 0) {
-      fields.push('note');
-    }
-    setInvalidFields(fields);
-    return fields.length === 0;
-  };
-
   const submitIncidentHandler = async (e: Event) => {
     e.preventDefault();
-    if (!isFormDataValid()) {
-      return;
+    const invalid = getInvalidFormFields(formData);
+    setInvalidFields(invalid);
+    if (invalid.length === 0) {
+      addIncident(formData);
     }
-    addIncident(formData);
   };
 
   const changeHandler = (key: string, value: string | Date) => {

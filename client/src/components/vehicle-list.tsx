@@ -9,12 +9,7 @@ import { Skeleton } from './skeleton';
 import { Input } from './input';
 import { InputErrorMessage } from './input-error-message';
 import DatePicker from 'react-datepicker';
-
-type FilterData = {
-  vin: string;
-  startDate: Date | null;
-  endDate: Date | null;
-};
+import { areFilterDatesValid, doesVINMatch, hasIncidentsInDateRange } from '../utils';
 
 export const VehicleList: React.FC = () => {
   const { incidentData, isGettingIncidents, hasGetIncidentsError, incidentsError } = useIncidentsService();
@@ -34,57 +29,23 @@ export const VehicleList: React.FC = () => {
     setFilterValue({ ...filterValue, [key]: fixedValue });
   };
 
-  const areFilterDatesValid = () => {
-    if (filterValue.startDate && filterValue.endDate) {
-      return filterValue.startDate < filterValue.endDate;
-    }
-    return true;
-  };
-
-  const isVINValid = (vin: string) => {
-    if (filterValue?.vin?.length > 0 && !vin.includes(filterValue.vin)) {
-      return false;
-    }
-    return true;
-  };
-
-  const hasIncidentsInDateRange = (vin: string) => {
-    if (!incidentData || !incidentData[vin] || !filterValue) {
-      return false;
-    }
-
-    if (!!filterValue.startDate || !!filterValue.endDate) {
-      const { startDate, endDate } = filterValue;
-      const incidents = incidentData[vin]?.incidents.filter((i: { date: string }) => {
-        if (startDate && new Date(i.date).getTime() < startDate.getTime()) {
-          return false;
-        }
-        if (endDate && new Date(i.date).getTime() > endDate.getTime()) {
-          return false;
-        }
-        return true;
-      });
-
-      if (incidents.length === 0) {
-        return false;
-      }
-    }
-
-    return true;
-  };
-
   React.useEffect(() => {
     const filterIncidents = (vin: string) => {
-      if (!isVINValid(vin)) {
+      if (!incidentData || !incidentData[vin] || !filterValue) {
         return false;
       }
 
-      if (!hasIncidentsInDateRange(vin)) {
+      if (!doesVINMatch(vin, filterValue.vin)) {
+        return false;
+      }
+
+      if (!hasIncidentsInDateRange(incidentData[vin], filterValue)) {
         return false;
       }
 
       return true;
     };
+
     if (incidentData) {
       const list: string[] = Object.keys(incidentData).filter(filterIncidents);
       setVinList(list);
@@ -156,7 +117,7 @@ export const VehicleList: React.FC = () => {
                 <Text fontWeight="bold" fontSize={2} mb={3}>
                   Filter by Date Range
                 </Text>
-                {!areFilterDatesValid() && (
+                {!areFilterDatesValid(filterValue) && (
                   <InputErrorMessage aria-live="assertive" id="datepicker-error" role="alert" showErrorMessage={true}>
                     Date must be in the past
                   </InputErrorMessage>
