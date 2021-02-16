@@ -15,7 +15,7 @@ type VehicleIncidentData = {
 type IncidentData = Record<string, VehicleData>;
 
 type FilterData = {
-  vin: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  vin?: string;
+  startDate?: Date | null;
+  endDate?: Date | null;
 };

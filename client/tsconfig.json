@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["cypress", "cypress-axe"]
+    "types": ["node", "jest", "cypress", "cypress-axe"]
   },
   "include": ["."]
 }

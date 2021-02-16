@@ -35,7 +35,7 @@ export const VehicleList: React.FC = () => {
         return false;
       }
 
-      if (!doesVINMatch(vin, filterValue.vin)) {
+      if (filterValue.vin && !doesVINMatch(vin, filterValue.vin)) {
         return false;
       }
 
